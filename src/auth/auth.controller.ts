@@ -5,21 +5,16 @@ import {
   Post,
   UseGuards,
   Request,
-  HttpCode,
-  HttpStatus,
 } from '@nestjs/common';
 import { SignIn } from 'src/dtos/create-user.dto';
-import { UsersService } from 'src/users/users.service';
+
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly userService: UsersService,
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Post()
   async signIn(@Body() signInDto: SignIn) {
@@ -33,7 +28,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @ApiBearerAuth('access-token')
-  @Post('profile')
+  @Get('profile')
   async getProfile(@Request() req) {
     return await this.authService.getProfile(req.user);
   }
