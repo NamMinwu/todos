@@ -6,12 +6,16 @@ import * as bcrypt from 'bcrypt';
 import { SignIn } from 'src/dtos/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
+import { User } from 'src/users/entities/user.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
   async signIn(email: string, password: string) {
@@ -24,11 +28,20 @@ export class AuthService {
     if (!isSamePassword) {
       throw new UnauthorizedException('비밀번호를 확인해 주세요.');
     }
-    const payload = { name: user.name, userId: user.id, todos: user.todos };
+    const payload = { name: user.name, userId: user.id };
     return {
       access_token: await this.jwtService.signAsync(payload, {
         secret: jwtConstants.secret,
       }),
     };
+  }
+
+  async getProfile(userInf) {
+    const user = await this.usersRepository.findOne({
+      where: { id: userInf.userId },
+    });
+
+    const profile = { name: user.name, todos: user.todos };
+    return profile;
   }
 }
