@@ -28,7 +28,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @ApiBearerAuth('access-token')
-  @Post('profile')
+  @Get('profile')
   async getProfile(@Request() req) {
     return await this.authService.getProfile(req.user);
   }
