@@ -35,6 +35,6 @@ export class AuthController {
   @ApiBearerAuth('access-token')
   @Get('profile')
   async getProfile(@Request() req) {
-    return this.authService.getProfile(req.user);
+    return await this.authService.getProfile(req.user);
   }
 }
