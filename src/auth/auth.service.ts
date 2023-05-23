@@ -24,7 +24,7 @@ export class AuthService {
     if (!isSamePassword) {
       throw new UnauthorizedException('비밀번호를 확인해 주세요.');
     }
-    const payload = { name: user.name, userId: user.id };
+    const payload = { name: user.name, userId: user.id, todos: user.todos };
     return {
       access_token: await this.jwtService.signAsync(payload, {
         secret: jwtConstants.secret,
