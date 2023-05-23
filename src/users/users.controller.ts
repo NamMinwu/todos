@@ -10,7 +10,7 @@ export class UsersController {
   @ApiBody({ type: CreateUserDto })
   @Post()
   async signup(@Body() createUserDto: CreateUserDto) {
-    const { email, password, name } = createUserDto;
+    const { email, password, name, todos } = createUserDto;
 
     const hasEmail = await this.userService.findEmail(email);
     if (hasEmail) {
