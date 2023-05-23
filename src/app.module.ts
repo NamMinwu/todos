@@ -22,6 +22,7 @@ import { Todo } from './todos/entities/todo.entity';
       entities: [User, Todo],
       synchronize: true,
       logging: true,
+      autoLoadEntities: true,
     }),
     UsersModule,
     AuthModule,
