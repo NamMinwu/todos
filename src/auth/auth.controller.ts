@@ -18,12 +18,7 @@ export class AuthController {
 
   @Post()
   async signIn(@Body() signInDto: SignIn) {
-    this.foo();
     return this.authService.signIn(signInDto.email, signInDto.password);
-  }
-
-  foo() {
-    console.log('this');
   }
 
   @UseGuards(AuthGuard)
