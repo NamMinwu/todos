@@ -41,11 +41,10 @@ export class AuthService {
   async getProfile(userInf) {
     const user = await this.usersRepository.findOne({
       where: { id: userInf.userId },
+      relations: ['todos'],
     });
-    const todo = await this.todoRepository.find({
-      where: { user: { id: userInf.userId } },
-    });
-    const profile = { name: user.name, todos: todo };
+
+    const profile = { name: user.name, todos: user.todos };
     return profile;
   }
 }
