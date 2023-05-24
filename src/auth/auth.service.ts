@@ -42,8 +42,8 @@ export class AuthService {
     const user = await this.usersRepository.findOne({
       where: { id: userInf.userId },
     });
-    const todo = await this.todoRepository.findOne({
-      where: { user: userInf.userId },
+    const todo = await this.todoRepository.find({
+      where: { user: { id: userInf.userId } },
     });
     const profile = { name: user.name, todos: todo };
     return profile;
