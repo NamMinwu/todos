@@ -30,6 +30,5 @@ export class Todo {
   updatedAt: Date;
 
   @ManyToOne((type) => User, (user) => user.todos)
-  @JoinColumn({ name: 'ref_userId' })
   user: User;
 }
