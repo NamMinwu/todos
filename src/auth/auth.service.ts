@@ -15,8 +15,6 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @InjectRepository(Todo)
-    private todoRepository: Repository<Todo>,
   ) {}
 
   async signIn(email: string, password: string) {
