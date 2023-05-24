@@ -1,13 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
-import { SignIn } from 'src/dtos/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
+import { Todo } from 'src/todos/entities/todo.entity';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +15,8 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Todo)
+    private todoRepository: Repository<Todo>,
   ) {}
 
   async signIn(email: string, password: string) {
@@ -25,6 +26,7 @@ export class AuthService {
     }
 
     const isSamePassword = bcrypt.compareSync(password, user.password);
+
     if (!isSamePassword) {
       throw new UnauthorizedException('비밀번호를 확인해 주세요.');
     }
@@ -40,8 +42,10 @@ export class AuthService {
     const user = await this.usersRepository.findOne({
       where: { id: userInf.userId },
     });
-
-    const profile = { name: user.name, todos: user.todos };
+    const todo = await this.todoRepository.find({
+      where: { user: userInf.userId },
+    });
+    const profile = { name: user.name, todos: todo };
     return profile;
   }
 }
