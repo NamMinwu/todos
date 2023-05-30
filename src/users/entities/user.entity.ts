@@ -26,7 +26,6 @@ export class User {
   @Column()
   name: string;
 
-  @ApiProperty()
   @OneToMany((type) => Todo, (todo) => todo.user)
   todos: Todo[];
 
