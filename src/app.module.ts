@@ -8,6 +8,9 @@ import { User } from './users/entities/user.entity';
 
 import { AuthModule } from './auth/auth.module';
 import { Todo } from './todos/entities/todo.entity';
+import { PageController } from './page/page.controller';
+
+import { PageModule } from './page/page.module';
 
 @Module({
   imports: [
@@ -26,6 +29,7 @@ import { Todo } from './todos/entities/todo.entity';
     }),
     UsersModule,
     AuthModule,
+    PageModule,
   ],
 
   controllers: [AppController],
