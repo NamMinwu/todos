@@ -22,4 +22,8 @@ export class TodosService {
     todo.user = user;
     return await this.todoRepository.save(todo);
   }
+
+  async showTodolist() {
+    return await this.todoRepository.find();
+  }
 }
